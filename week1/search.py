@@ -115,14 +115,14 @@ def create_query(user_query, filters, sort="_score", sortDir="desc"):
             "query_string": {
                 'query': user_query,
                 #'slop': 3,
-                'fields': ['name.keyword', 'shortDescription.keyword', 'longDescription.keyword'],
-                #'filter': filters
+                    'fields': ['name.keyword^100', 'shortDescription.keyword^50', 'longDescription.keyword^10', 'department.keyword'],
+                    #'filter': filters
             } # Replace me with a query that both searches and filters
         },
-        "sort" : [
-            {"regularPrice" : {"order" : "asc"}},
-            #{"name.keyword" : {}}
-        ],
+        # "sort" : [
+        #     {"regularPrice" : {"order" : "desc"}},
+        #     {"name.keyword" : {}}
+        # ],
         "aggs": {
             #### Step 4.b.i: create the appropriate query and aggregations here
             "regularPrice": {
