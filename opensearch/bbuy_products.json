@@ -213,7 +213,13 @@
           }
         },
         "modelNumber": {
-          "type": "float"
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
         },
         "name": {
           "type": "text",
@@ -267,7 +273,7 @@
         "shippingCost": {
           "type": "float"
         },
-        "ShippingWeight": {
+        "shippingWeight": {
           "type": "text",
           "fields": {
             "keyword": {
