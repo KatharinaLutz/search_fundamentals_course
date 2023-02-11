@@ -95,7 +95,7 @@ def query():
 
     #### Step 4.b.ii
     #response = None   # TODO: Replace me with an appropriate call to OpenSearch
-    response = opensearch(body=query_obj, index=index_name)
+    response = opensearch.search(body=query_obj)
     # Postprocess results here if you so desire
 
     #print(response)
@@ -114,14 +114,14 @@ def create_query(user_query, filters, sort="_score", sortDir="desc"):
         "query": {
             "query_string": {
                 'query': user_query,
-                'slop': 3,
-                'fields': ['name', 'shortDescription', 'longDescription'],
-                'filter': filters
+                #'slop': 3,
+                'fields': ['name.keyword', 'shortDescription.keyword', 'longDescription.keyword'],
+                #'filter': filters
             } # Replace me with a query that both searches and filters
         },
         "sort" : [
-            {"regularPrice" : {"order" : "asc", "mode" : "avg"}},
-            {"name.keyword" : {}}
+            {"regularPrice" : {"order" : "asc"}},
+            #{"name.keyword" : {}}
         ],
         "aggs": {
             #### Step 4.b.i: create the appropriate query and aggregations here
@@ -139,28 +139,26 @@ def create_query(user_query, filters, sort="_score", sortDir="desc"):
                         {
                             "from": 50,
                         }
-                    ]
-                }
+                            ]
+                        }
             },
             "department": {
                 "terms": {
-                    "field": "department",
+                    "field": "department.keyword",
                     "size": 10,
                     "min_doc_count": 0
                 }
             },
-            {
             "missing_images": {
-                "missing": { "field": "image" }
+                "missing": { "field": "image.keyword" }
                 }
-            },
-            "highlight": {
+        },
+        "highlight": {
                 "fields": {
-                "name": {},
-                "shortDescription": {},
-                "longDescription": {}
+                    "name.keyword": {},
+                    "shortDescription.keyword": {},
+                    "longDescription.keyword": {}
                 }
-            }
         }
     }
     return query_obj
