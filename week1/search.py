@@ -94,7 +94,8 @@ def query():
     print("query obj: {}".format(query_obj))
 
     #### Step 4.b.ii
-    response = None   # TODO: Replace me with an appropriate call to OpenSearch
+    #response = None   # TODO: Replace me with an appropriate call to OpenSearch
+    response = opensearch(body=query_obj, index=index_name)
     # Postprocess results here if you so desire
 
     #print(response)
@@ -111,11 +112,55 @@ def create_query(user_query, filters, sort="_score", sortDir="desc"):
     query_obj = {
         'size': 10,
         "query": {
-            "match_all": {} # Replace me with a query that both searches and filters
+            "query_string": {
+                'query': user_query,
+                'slop': 3,
+                'fields': ['name', 'shortDescription', 'longDescription'],
+                'filter': filters
+            } # Replace me with a query that both searches and filters
         },
+        "sort" : [
+            {"regularPrice" : {"order" : "asc", "mode" : "avg"}},
+            {"name.keyword" : {}}
+        ],
         "aggs": {
             #### Step 4.b.i: create the appropriate query and aggregations here
-
+            "regularPrice": {
+                "range": {
+                    "field": "regularPrice",
+                    "ranges": [
+                        {
+                            "to": 20
+                        },
+                        {
+                            "from": 20,
+                            "to": 50
+                        },
+                        {
+                            "from": 50,
+                        }
+                    ]
+                }
+            },
+            "department": {
+                "terms": {
+                    "field": "department",
+                    "size": 10,
+                    "min_doc_count": 0
+                }
+            },
+            {
+            "missing_images": {
+                "missing": { "field": "image" }
+                }
+            },
+            "highlight": {
+                "fields": {
+                "name": {},
+                "shortDescription": {},
+                "longDescription": {}
+                }
+            }
         }
     }
     return query_obj
