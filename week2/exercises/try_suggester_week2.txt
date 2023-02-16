@@ -1,0 +1,19 @@
+ iPad
+ iPod is suggested
+
+ led tv
+ suggests different spellings and different sizes of tvs
+ and : "Did you mean? Phrase suggestions: led to Term suggestions: lcd"
+
+ ipod
+ No term suggestions for "ipod"
+
+ prance
+  Did you mean? Phrase suggestions: praise Term suggestions: princ 
+
+  asdef
+   Did you mean? Phrase suggestions: andes Term suggestions: adder 
+
+1945 74
+   Did you mean? Phrase suggestions: 1945 47
+   suggests another sku that is not helpful

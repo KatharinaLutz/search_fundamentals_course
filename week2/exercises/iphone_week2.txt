@@ -1,0 +1,19 @@
+For each of these query templates (name vs name.hyphens), try the following queries and note 
+which ones return: a) Zero results, b) an iPhone related product (either the phone itself or an accessory),
+c) non-iPhone related products:
+
+iPhone
+--> both iPhone related
+
+i phone
+--> name.hyphens has iPhone related results; name has non-iPhone related results
+
+I-phone
+--> name.hyphens has iPhone related results; name has non-iPhone related results
+
+iPhone4
+--> name.hyphens has iPhone related results; name has non-iPhone related results
+
+Iphone4
+--> both zero results
+--> results when applying fuzzy matching (but not iPhone related when using name template and fuzziness of 2)
